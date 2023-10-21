@@ -1,0 +1,159 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+
+    <!-- hero-Menu -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-content-intro">
+                <img id="profile_pic" src="{% static 'images/joelHeda.jpeg' %}" alt="Joel's Photo">
+                <h1 class="intro-name">Joel Yvan <br>Heda Tankeu</h1>
+            </div>
+
+            <div class="hero-content-subsection">
+                <h3 class="WhatI"></h3>
+                <p>I'd like to become a freelancer and IT consultant. But right now I'm taking courses in front-end programming and a bit of back-end.</p>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- container-part -->
+    <section class="container containPart">
+        <div class="projets" id="projets">
+            <h1 class="div_title">My Projects</h1>
+
+            <div class="projet-container">
+
+                {% for project in projects%}
+                <div class="projetContent">
+                    <div class="projetImage-content">
+                        <a href="{% url 'project' project.id %}">
+                            <img src="{{ project.thumbnail }}" alt="anmeldungPage of app">
+                        </a>
+                    </div>
+                    <h3 class="description">{{ project.title }}</h3>
+                </div>
+                {% empty %}
+
+                <h3>There are not Projects in the database</h3>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="about-me">
+            <h1 class="div_title">More About Me</h1>
+
+            <p>I am a student at Hochschule Worms in Germany.more precisely,I am in the fourth semester and I like insanely everything that concerns computer science,namely programming,artificial intelligence,robotics as well as researches in this field.
+            </p>
+
+            <p>Since I was in high school,I had already started with programming,namely with Html,Css and JavaScript.after that I put my interest in programming in programming language C and with that I developed 2 small software. The first one has the goal to unify the selection of new graduates to the university administration of my country.
+            </p>
+        </div>
+
+        <div class="skills" id="skills">
+            <h1 class="div_title">Skills</h1>
+
+            <div class="skill-description">
+                <h5 class="div_title">My creative Skills & Experiences.</h5>
+                <p>As for me, I have already developed many websites with html and css. I have also developed a few projects with Python and PyQt, as well as with React and Django and many others.</p>
+            </div>
+
+            {% for aSkill in skills %}
+            <div class="sprache">
+
+                <div class="logo_sprache">
+                    {% if aSkill.logo %}
+                        <img src="{{ aSkill.logo }}" alt="logo">
+                    {% endif %}
+                    <div>
+                        <h5>{{ aSkill.title }}</h5>
+                        <p>{{ aSkill.body }} </p>
+                    </div>
+                </div>
+
+                <div class="framework">
+                {% for sprachSkill in sprachSkills %}
+
+                    {% if sprachSkill.title == aSkill.title %}
+
+                    <span class="s1" style="background-color: {{ sprachSkill.bg_color }}">{{ sprachSkill.body }}</span>
+
+                    {% endif %}
+
+                    {% empty %}
+                    {% endfor %}
+                </div>
+
+            </div>
+            {% empty %}
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <section class="container-endorsement">
+        <div class="sub-container endor-sub">
+            <h3 class="div_title">Endorsements</h3>
+            <h5 class="btn btn-primary endorBt"><i class="bi bi-plus"></i><a class="nav-lin" href="{% url 'add-endorsement' %}">Add Endorsement</a></h5>
+        </div>
+
+            {% for i in endorsements %}
+            <div class="container card my-t endorsement">
+
+                <h5>{{ i.name }}</h5>
+                <p>{{ i.body }} </p>
+
+            </div>
+            {% empty %}
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <!-- contact-part -->
+    <section class="contact" id="contact">
+        <h1 class="div_title">Contact Me</h1>
+
+        <div class="contact-container">
+            <div class="contact-informations">
+                <p class="infos">
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                </p>
+
+                <div class="perso_info">
+                    <div class="adress">
+                        <h4>Address</h4>
+                        <p>Bebelstraße 22, 67549 Worms</p>
+                    </div>
+
+                    <div class="mail">
+                        <h4>Email</h4>
+                        <p>hedayvan@gmail.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <h3>Write Me</h3>
+
+                <form class="contact--form" action="#" method="POST">
+                    {% csrf_token %}
+            {#        to show the CKEditor into the page of edit#}
+                    {{ form.media }}
+                    {% for field in messageForm %}
+                        <div class="mb-3">
+                            <label for="aa" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+
+                <input class="btn btn-primary" type="submit" value="submit">
+                </form>
+        </div>
+    </section>
+
+
+
+{% endblock content %}
